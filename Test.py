@@ -21,31 +21,40 @@ def read_file(file_name):
     F.close()
     return temp
 
-#variables used
-file_name = "input.txt"
-unwanted_chars = "[\"!?,.]"
-histograph = {}
-max_len = 0
+def create_histograph(lines,unwanted_chars,histograph,max_len):
+    #this outer loop looks at every line/string in the array and removes unwanted characters then splits 
+    #by a default delimiter of SPACE to get the SPACE seperated words
+    for line in lines:
+        line = re.sub(unwanted_chars,"",line ).lower().split()
+        #the inner loop finds the longest word and also inputs words into dictionary
+        #along with corresponding frequency
+        for word in line:
+            if len(word)>max_len:
+                max_len = len(word)
+            if word in histograph:
+                histograph[word]+=1
+            else:
+                histograph[word] = 1
 
-#read file
-lines=read_file(file_name)
+    max_len = str(max_len+1)
+    return unwanted_chars,histograph,max_len
 
-#this outer loop looks at every line/string in the array and removes unwanted characters then splits 
-#by a default delimiter of SPACE to get the SPACE seperated words
-for line in lines:
-    line = re.sub(unwanted_chars,"",line ).lower().split()
-    #the inner loop finds longest word and also inputs words into dictionary
-    #along with corresponding frequency
-    for word in line:
-        if len(word)>max_len:
-            max_len = len(word)
-        if word in histograph:
-            histograph[word]+=1
-        else:
-            histograph[word] = 1
+def main():
+    #variables used
+    file_name = "input.txt"
+    unwanted_chars = "[\"!?,.]"
+    histograph = {}
+    max_len = 0
 
-max_len = str(max_len)
+    #read file
+    lines=read_file(file_name)
 
-#sort the dictionary by value then print
-for word in sorted(histograph, key=histograph.get, reverse=True):
-    proper_print(word,histograph,max_len)
+    #create histograph
+    unwanted_chars,histograph,max_len = create_histograph(lines,unwanted_chars,histograph,max_len )
+
+    #sort the dictionary by value then print histograph
+    for word in sorted(histograph, key=histograph.get, reverse=True):
+        proper_print(word,histograph,max_len)
+
+if __name__ == "__main__":
+    main()
