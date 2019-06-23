@@ -1,6 +1,12 @@
 #import regex for string manipulation
 import re
 
+#this function writes an array of strings to a file
+def write_file(file_name,lines):
+    with open(file_name,"w") as F:
+        for line in lines:
+            F.write(line+'\n')
+
 #function to print predefined right aligned format
 def proper_print(word,histograph,max_len):
     r_align = "{0:>"+max_len+"}"
@@ -12,13 +18,12 @@ def proper_print(word,histograph,max_len):
     output += " ("
     output += str(histograph[word])
     output += ")"
-    print(output)
+    return output
 
 #this function reads a file and separates by new line into an array
 def read_file(file_name):
-    F = open(file_name, "r") 
-    temp = F.readlines() 
-    F.close()
+    with open(file_name, "r") as F:
+        temp = F.readlines() 
     return temp
 
 def create_histograph(lines,unwanted_chars,histograph,max_len):
@@ -37,24 +42,29 @@ def create_histograph(lines,unwanted_chars,histograph,max_len):
                 histograph[word] = 1
 
     max_len = str(max_len+1)
-    return unwanted_chars,histograph,max_len
+    return histograph,max_len
 
 def main():
     #variables used
-    file_name = "input.txt"
+    infile_name = "input.txt"
+    outfile_name = "output.txt"
     unwanted_chars = "[\"!?,.]"
     histograph = {}
     max_len = 0
+    output = []
 
     #read file
-    lines=read_file(file_name)
+    lines=read_file(infile_name)
 
     #create histograph
-    unwanted_chars,histograph,max_len = create_histograph(lines,unwanted_chars,histograph,max_len )
+    histograph,max_len = create_histograph(lines,unwanted_chars,histograph,max_len )
 
-    #sort the dictionary by value then print histograph
+    #sort the dictionary by value then create proper string for output
     for word in sorted(histograph, key=histograph.get, reverse=True):
-        proper_print(word,histograph,max_len)
+        output.append(proper_print(word,histograph,max_len))
+
+    #write to file
+    write_file(outfile_name,output)
 
 if __name__ == "__main__":
     main()
