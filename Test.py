@@ -1,3 +1,14 @@
+'''
+* 1.About Complexity
+*   1.1 Time Complexity is O(n log(n))
+*   1.2 Space Complexity is O(n)
+* 2.How I solve
+*   2.1 Read File
+*   2.2 Create Histograph using python dictionary
+*   2.3 Sort the dictionary by frequency of words
+*   2.4 Write to file
+* 3.Q&A
+'''
 #import regex for string manipulation
 import re
 
