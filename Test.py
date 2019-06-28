@@ -64,17 +64,17 @@ def main():
     max_len = 0
     output = []
 
-    #read file
+    #2.1 - read file
     lines=read_file(infile_name)
 
-    #create histograph
+    #2.2 - create histograph/dictionary where the key is the word and the value is the frequency
     histograph,max_len = create_histograph(lines,unwanted_chars,histograph,max_len )
 
-    #sort the dictionary by value then create proper string for output
+    #2.3 - sort the dictionary by value then create proper string for output
     for word in sorted(histograph, key=histograph.get, reverse=True):
         output.append(proper_print(word,histograph,max_len))
 
-    #write to file
+    #2.4 - write to file
     write_file(outfile_name,output)
 
 if __name__ == "__main__":
